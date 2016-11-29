@@ -1,23 +1,22 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'popadmin/version'
+$:.push File.expand_path("../lib", __FILE__)
 
-Gem::Specification.new do |spec|
-  spec.name          = "popadmin"
-  spec.version       = Popadmin::VERSION
-  spec.authors       = ["bacchi.rafael"]
-  spec.email         = ["bacchi.rafael@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+# Maintain your gem's version:
+require "pop_admin/version"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+# Describe your gem and declare its dependencies:
+Gem::Specification.new do |s|
+  s.name        = "popadmin"
+  s.version     = PopAdmin::VERSION
+  s.authors     = ["bacchi.rafael"]
+  s.email       = ["bacchi.rafael@gmail.com"]
+  s.homepage    = ""
+  s.summary     = "Beautiful and flexible administration engine"
+  s.description = "Beautiful and flexible administration engine"
+  s.license     = "MIT"
 
-  spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake"
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["test/**/*"]
+
+  s.add_dependency "rails", "~> 4.2.7"
+  s.add_development_dependency "sqlite3"
 end

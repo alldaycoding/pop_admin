@@ -1,5 +1,1 @@
-require "popadmin/version"
-
-module Popadmin
-  # Your code goes here...
-end
+require 'pop_admin'

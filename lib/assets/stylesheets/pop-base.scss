@@ -1,0 +1,256 @@
+.pop-app-header-container {
+  background: rgb(243, 243, 243);
+
+  a {
+    color: #2b303a;
+  }
+
+  ul.links-list {
+    margin: 0;
+    padding: 5px 10px 5px 5px;
+
+    > li.sep {
+      border-left: 1px solid #e1e1e1;
+    }
+  }
+}
+
+.pop-env {
+  display: inline-block;
+  margin: 5px 10px;
+  color: #000;
+  font-weight: bold;
+}
+
+.pop-page-header-container {
+  display: none;
+  border-bottom: 1px solid #eeeeee;
+  margin: 0px;
+
+  &.active {
+    display: block;
+  }
+
+  ul.links-list {
+    margin: 0;
+    padding: 10px;
+
+    .pop-page-title h3 {
+      margin-top: 5px;
+    }
+
+    > li.sep {
+      border-left: 1px solid #e1e1e1;
+    }
+  }
+}
+
+ul.pop-page-actions > li {
+  vertical-align: top;
+
+  &.sep {
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  ul.pop-page-actions li.sep {
+    display: none;
+  }
+}
+
+.pop-page-content {
+  padding: 0 20px;
+}
+
+.pop-form-panel {
+}
+
+.pop-info-panel {
+  padding: 10px;
+  p.pop-info-box {
+    display: block;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f5f5;
+    .pop-info-label {
+      position: relative;
+      color: #949494;
+      display: inline-block;
+      overflow: hidden;
+      margin-right: 15px;
+      line-height: 14px;
+      top: 2px;
+      width: 120px;
+      overflow: hidden;
+    }
+    .pop-info-label:after {
+      content: ':'
+    }
+    .pop-info-value {
+      position: relative;
+      display: inline-block;
+      color: #373e4a;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 14px;
+    }
+  }
+
+  p.pop-info-box-horizontal {
+    display: block;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f5f5;
+    .pop-info-label {
+      position: relative;
+      color: #949494;
+      display: inline-block;
+      overflow: hidden;
+      margin-right: 15px;
+      line-height: 14px;
+      top: 2px;
+      width: 120px;
+      overflow: hidden;
+    }
+    .pop-info-label:after {
+      content: ':'
+    }
+    .pop-info-value {
+      position: relative;
+      display: inline-block;
+      color: #373e4a;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 14px;
+    }
+  }
+
+  p.pop-info-box-vertical {
+    display: block;
+    padding: 7px 0;
+    border-bottom: 1px solid #f5f5f5;
+    .pop-info-label {
+      display: block;
+      padding: 3px 0;
+      color: #949494;
+      margin-right: 15px;
+    }
+    .pop-info-label:after {
+      content: ':'
+    }
+    .pop-info-value {
+      padding: 0;
+      display: block;
+      color: #373e4a;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 18px;
+    }
+  }
+}
+
+.pop-form-actions {
+  padding: 15px 0;
+  input, a, button {
+    margin-right: 10px;
+  }
+}
+
+.pop-tabs-container {
+  background: rgb(243, 243, 243);
+  border-top: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  .nav-tabs {
+    border-bottom: 0;
+    margin-top: 20px;
+    margin-bottom: 0px;
+  }
+}
+
+.tab-content.pop-tab-content {
+  padding: 20px;
+}
+
+.inline-errors {
+  color: #c71515;
+  font-size: .8em;
+  font-weight: bold;
+  padding: 3px 0;
+  margin: 0;
+}
+
+ .pop-form-actions {
+   margin-top: 10px;
+
+   box-shadow: 0 -4px 5px -3px rgba(0,0,0,.1);
+   border-top: 1px solid #ededed;
+
+   padding: 20px 10px;
+   border-shadow: 2px solid #000;
+ }
+
+ /* Record tabs */
+ .nav-tabs.pop-record-tabs {
+     border-bottom: 1px solid #ddd;
+     border-top: 0;
+     margin-top: 20px;
+     margin-bottom: 10px;
+
+     > li {
+       padding: 7px;
+       margin-right: 3px;
+       > a {
+         padding: 5px 10px;
+         -webkit-border-radius: 5px;
+         -moz-border-radius: 5px;
+         border-radius: 5px;
+       }
+     }
+
+     > li.active {
+       margin-bottom: 0;
+       border: 0;
+       > a {
+         font-weight: bold;
+         border: 0;
+         background-color: #555555;
+         color: #fff;
+       }
+     }
+ }
+
+ .pop-record-tab-content {
+   margin-top: 20px;
+ }
+
+ .page-body .select-field, .page-body .pop-select2 {
+   overflow: hidden;
+   height: 31px;
+   line-height: 31px;
+
+   -webkit-border-radius: 3px !important;
+   -moz-border-radius: 3px !important;
+   border-radius: 3px !important;
+ }
+
+ .pop-tab-buttons {
+   display: block;
+   float: right;
+   font-size: 1.2em;
+   a {
+     color: #373e4a;
+     &:hover {
+       text-decoration: none;
+       color: #818da2;
+     }
+   }
+ }
+
+ .pop-idx-row {
+   padding: 0px 10px;
+ }
+
+ .modal.tabs {
+   .modal-body {
+     padding: 0;
+   }
+ }
