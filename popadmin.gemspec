@@ -5,7 +5,7 @@ require "pop_admin/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "popadmin"
+  s.name        = "pop_admin"
   s.version     = PopAdmin::VERSION
   s.authors     = ["bacchi.rafael"]
   s.email       = ["bacchi.rafael@gmail.com"]

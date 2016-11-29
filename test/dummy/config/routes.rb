@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-
-  mount PopAdmin::Engine => "/popadmin"
+  mount PopAdmin::Engine => "/pop_admin"
 end

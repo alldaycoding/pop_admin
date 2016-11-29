@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :popadmin do
+# task :pop_admin do
 #   # Task goes here
 # end
