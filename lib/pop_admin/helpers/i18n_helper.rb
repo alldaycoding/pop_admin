@@ -1,5 +1,13 @@
 module PopAdmin::I18nHelper
 
+  def enum_list(model, attribute)
+    attr_key = attribute.to_s.pluralize.to_sym
+    targets = model.send(attr_key).map do |k,v|
+      [ta(model.model_name.to_s, "#{attr_key}.#{k}"), k]
+    end
+    Hash[*targets.flatten]
+  end
+
   def translate_model_name(*options)
     I18n.tn(*options)
   end
