@@ -22,7 +22,6 @@
 
 #= require neon/fullcalendar-2/fullcalendar.min.js
 #= require neon/fullcalendar-2/lang/min/es-min.js
-#= require neon/neon-calendar-2.js
 
 #=require ./pop/base
 #=require ./pop/forms
