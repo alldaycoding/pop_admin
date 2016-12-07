@@ -20,6 +20,7 @@
 #= require handlebars.js
 #= require jquery.populate.js
 
+#= require neon/moment.min.js
 #= require neon/fullcalendar-2/fullcalendar.min.js
 #= require neon/fullcalendar-2/lang/min/es-min.js
 
