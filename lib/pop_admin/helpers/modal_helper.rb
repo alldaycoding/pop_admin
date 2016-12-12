@@ -24,7 +24,6 @@ module PopAdmin::ModalHelper
           if options[:buttons]
             content_tag("div", class: "modal-footer") do
                 options[:buttons].call()
-              end
             end
           else
             "".html_safe
