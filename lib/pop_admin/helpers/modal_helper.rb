@@ -21,10 +21,13 @@ module PopAdmin::ModalHelper
           content_tag("div", class: "modal-body") do
             yield
           end +
-          content_tag("div", class: "modal-footer") do
-            if options[:buttons]
-              options[:buttons].call()
+          if options[:buttons]
+            content_tag("div", class: "modal-footer") do
+                options[:buttons].call()
+              end
             end
+          else
+            "".html_safe
           end
         end
       end
