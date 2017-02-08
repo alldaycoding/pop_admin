@@ -32,6 +32,7 @@ class Pop.Table
         data: { authenticity_token: options.authenticity_token }
       processing: true
       serverSide: true
+      pagingType: 'simple'
       pageLength: @page_length()
       columns: options.columns
       order: options.order
