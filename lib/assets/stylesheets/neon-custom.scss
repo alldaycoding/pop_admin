@@ -159,6 +159,23 @@ label.control-label {
     border-right: 0 !important;
 }
 
+.dataTables_wrapper.DTS .dataTables_paginate {
+  display: none;
+}
+
+.dataTables_wrapper.DTS .dataTables_info {
+  padding-top: 0 !important;
+}
+
+.dataTables_wrapper.DTS .dataTables_scrollBody {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.dataTables_wrapper .dataTables_processing {
+  padding-top: 10px;
+  color: #999;
+}
+
 .input-group-addon a, .input-group-addon a:hover,
 .input-group-addon a:visited, .input-group-addon a:active {
   color: #303641;

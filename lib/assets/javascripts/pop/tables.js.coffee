@@ -7,8 +7,12 @@ class Pop.Table
 
   redraw: () ->
     api = @el.dataTable().api()
-    api.page.len(@page_length())
-    api.draw(true)
+    if @paging
+      api.page.len(@page_length())
+      api.draw(true)
+    else
+      @el.closest(".dataTables_scrollBody").css("height", "#{@scroll_length()}px")
+
 
   page_length: ->
     table_top = @el.offset().top
@@ -19,10 +23,20 @@ class Pop.Table
     len = 15 if len < 10
     len
 
+  scroll_length: ->
+    if @el.closest(".dataTables_wrapper").length > 0
+      table_top = @el.closest(".dataTables_wrapper").offset().top
+    else
+      table_top = @el.offset().top
+    win_height = $(window).height()
+    head_foot_height = if $(window).width() > 768 then 100 else 120
+    win_height - table_top - head_foot_height
+
   render: (options = {}) ->
-    table = this
-    $.fn.DataTable.ext.pager.numbers_length = 5
-    table = @el.DataTable
+    @paging = options.paging || false
+    pop_table = this
+
+    table_opts =
       sDom: "tip"
       bStateSave: false
       iDisplayLength: 8
@@ -30,10 +44,8 @@ class Pop.Table
         url: options.url
         type: 'POST'
         data: { authenticity_token: options.authenticity_token }
-      processing: true
       serverSide: true
-      pagingType: 'simple'
-      pageLength: @page_length()
+      processing: true
       columns: options.columns
       order: options.order
       language:
@@ -50,12 +62,27 @@ class Pop.Table
           else
             window.location.href = url
 
-      $(".pop-page-search").submit (e) ->
-        e.preventDefault()
-        table.search($(this).find("input.form-control").val()).draw()
-        return false
+    console.log(options.paging)
 
-$(window).on 'resize', () ->
-  Pop.tables ||= []
-  for table in Pop.tables
-    table.redraw()
+    if @paging
+      $.extend table_opts,
+        pagingType: 'simple'
+        pageLength: @page_length()
+    else
+      $.extend table_opts,
+        scroller:
+          loadingIndicator: true
+        scrollY: pop_table.scroll_length()
+        deferRender: true
+
+    table = @el.DataTable(table_opts)
+
+    $(".pop-page-search").submit (e) ->
+      e.preventDefault()
+      table.search($(this).find("input.form-control").val()).draw()
+      return false
+
+    $(window).on 'resize', () ->
+      Pop.tables ||= []
+      for table in Pop.tables
+        table.redraw()

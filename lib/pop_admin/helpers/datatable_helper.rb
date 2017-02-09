@@ -8,6 +8,7 @@ module PopAdmin::DatatableHelper
       rows_group: [],
       order: [[0, 'asc']],
       columnDefs: [],
+      paging: false,
       data: {}
     )
 
@@ -51,6 +52,7 @@ module PopAdmin::DatatableHelper
           tbl.render({ url: "#{options[:url]}",
             columns: #{raw(columns_js.to_json)},
             i18n_url: "#{options[:i18n_url]}",
+            paging: #{options[:paging]},
             order: #{raw(options[:order].to_json)},
             rows_group: #{raw(options[:rows_group].to_json)},
             authenticity_token: "#{form_authenticity_token}" });
