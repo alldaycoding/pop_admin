@@ -62,8 +62,6 @@ class Pop.Table
           else
             window.location.href = url
 
-    console.log(options.paging)
-
     if @paging
       $.extend table_opts,
         pagingType: 'simple'
