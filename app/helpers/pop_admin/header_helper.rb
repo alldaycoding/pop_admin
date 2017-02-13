@@ -52,8 +52,21 @@ module PopAdmin::HeaderHelper
             content_tag('i', "", class: 'entypo-menu')
           end +
           content_tag('ul', class: 'dropdown-menu dropdown-menu-right') do
-            yield
+            if block_given?
+              yield
+            end
           end
+        end
+      end
+    end
+  end
+
+  def secondary_page_actions(actions = {})
+    if actions.any?
+      page_action_group do
+        actions.each do |name, opts|
+          opts = opts.dup
+          concat dropdown_action(opts.delete(:label), opts.delete(:url), opts)
         end
       end
     end
