@@ -33,7 +33,7 @@ class Pop.Table
     win_height - table_top - head_foot_height
 
   render: (options = {}) ->
-    @paging = options.paging || false
+    @paging = options.paging || true
     pop_table = this
 
     table_opts =

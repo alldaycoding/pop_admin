@@ -58,5 +58,4 @@ end
 
 PopAdmin.load!
 
-require 'pop_admin/helpers/helpers.rb'
 require 'pop_admin/forms/form_builder.rb'

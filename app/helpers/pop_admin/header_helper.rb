@@ -23,39 +23,49 @@ module PopAdmin::HeaderHelper
 
   def page_action(label, url, icon = nil, options = {})
     options.reverse_merge!(class: 'btn-default', type: 'icon-left',
-      title: label)
+      title: label, visible: true)
     if options[:type] == 'icon-left'
       options[:class] = "btn btn-icon #{options[:class]} icon-left"
     elsif options[:type] == 'icon-only'
       options[:class] = "btn #{options[:class]} icon-only"
     end
-    content_tag('li', class: "pop-page-action") do
-      link_to(url, options) do
-        concat(label.html_safe) unless options[:type] == 'icon-only'
-        concat(content_tag('i', '', class: icon)) if icon
+
+    if options[:visible]
+      content_tag('li', class: "pop-page-action") do
+        link_to(url, options) do
+          concat(label.html_safe) unless options[:type] == 'icon-only'
+          concat(content_tag('i', '', class: icon)) if icon
+        end
       end
     end
   end
 
   def page_action_group(options = {})
-    options.reverse_merge!({ class: "" })
+    options.reverse_merge!(class: "", visible: true)
     options[:class] += " pop-page-action"
-    content_tag('li', options) do
-      content_tag('div', class: 'btn-group') do
-        button_tag(type: 'button', class: 'btn btn-default icon-only dropdown-toggle',
-          data: { toggle: 'dropdown' }) do
-          content_tag('i', "", class: 'entypo-menu')
-        end +
-        content_tag('ul', class: 'dropdown-menu dropdown-menu-right') do
-          yield
+
+    if options[:visible]
+      content_tag('li', options) do
+        content_tag('div', class: 'btn-group') do
+          button_tag(type: 'button', class: 'btn btn-default icon-only dropdown-toggle',
+            data: { toggle: 'dropdown' }) do
+            content_tag('i', "", class: 'entypo-menu')
+          end +
+          content_tag('ul', class: 'dropdown-menu dropdown-menu-right') do
+            yield
+          end
         end
       end
     end
   end
 
   def dropdown_action(label, url, options = {})
-    content_tag('li') do
-      link_to(label, url, options)
+    options.reverse_merge!(visible: true)
+
+    if options[:visible]
+      content_tag('li') do
+        link_to(label, url, options)
+      end
     end
   end
 

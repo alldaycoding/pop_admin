@@ -18,7 +18,7 @@ module PopAdmin
         end
 
         def field_wrapper_style
-          if @builder.horizontal?
+          if horizontal?
             "#{super} checkbox col-sm-offset-#{grid[0]}"
           else
             "#{super} checkbox"

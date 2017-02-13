@@ -10,6 +10,9 @@ module PopAdmin
           @object_name = object_name
           @method = method
           @options = options.dup
+          @options.reverse_merge!(
+            form_type: @builder.form_type
+          )
           @options[:class] = field_style
         end
 
@@ -40,6 +43,12 @@ module PopAdmin
             @builder.label(@method, label, class: label_style)
           else
             "".html_safe
+          end
+        end
+
+        [:horizontal, :vertical].each do |ftype|
+          define_method("#{ftype}?") do
+            @options[:form_type].to_sym == ftype
           end
         end
 
