@@ -64,11 +64,7 @@ module PopAdmin::ModalHelper
   def modal_response(object, options = {})
     options.reverse_merge!(action: 'save')
 
-    res = %Q{
-      $(".has-error .help-block").remove();
-      $(".has-error").removeClass("has-error");
-      $(".field-with-errors").removeClass("field-with-errors");
-    }
+    res = js_remove_error_messages(object)
 
     if object.errors.any?
       last_k = nil
@@ -81,35 +77,6 @@ module PopAdmin::ModalHelper
     end
 
     raw res
-  end
-
-  def js_error_messages(object)
-    last_k = nil
-    model_name = object.class.model_name.to_s.underscore
-    messages = object.errors.map do |k, v|
-      if k.to_s != "base"
-        if k != last_k
-          if k =~ /^(.*)\.(.*)$/
-            field = k.to_s.gsub!(/^(.*)\.(.*)$/, '\1_attributes_\2')
-          else
-            field = k
-          end
-
-          last_k = k
-          %Q{
-            $("##{model_name}_#{field}").closest(".form-group").addClass("has-error");
-            $("##{model_name}_#{field}").closest(".control-wrapper").append("#{j js_error_msg(v)}");
-          }
-        end
-      end
-    end
-    messages.compact.join("")
-  end
-
-  def js_error_msg(err)
-    content_tag :p, :class => 'help-block' do
-      err.to_s.capitalize
-    end
   end
 
 end
