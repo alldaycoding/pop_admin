@@ -8,8 +8,9 @@ module PopAdmin::UjsHelper
   end
 
   def ujs_form_response(object, options = {})
-    options.reverse_merge!(action: 'save')
-    
+    options.reverse_merge!(action: 'save',
+      redirect: false)
+
     res = js_remove_error_messages(object)
 
     if object.errors.any?
@@ -18,6 +19,10 @@ module PopAdmin::UjsHelper
       res << %Q{Pop.notify.error("#{error_message(object, options[:action])}")}
     else
       res << trigger_ujs_event(object)
+
+      if options[:redirect]
+        res << "Turbolinks.visit('#{options[:redirect]}');"
+      end
     end
 
     raw res
