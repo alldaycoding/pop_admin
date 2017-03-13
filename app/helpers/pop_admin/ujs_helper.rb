@@ -7,7 +7,9 @@ module PopAdmin::UjsHelper
     }
   end
 
-  def ujs_form_response(object)
+  def ujs_form_response(object, options = {})
+    options.reverse_merge!(action: 'save')
+    
     res = js_remove_error_messages(object)
 
     if object.errors.any?
@@ -42,7 +44,7 @@ module PopAdmin::UjsHelper
           end
 
           last_k = k
-          
+
           %Q{
             $("##{model_name}_#{field}").closest(".form-group").addClass("has-error");
             $("##{model_name}_#{field}").closest(".control-wrapper").append("#{j js_error_msg(v)}");
