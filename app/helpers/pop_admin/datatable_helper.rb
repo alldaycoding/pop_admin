@@ -38,11 +38,12 @@ module PopAdmin::DatatableHelper
 
     column_defaults = { className: '', orderable: true }
 
+
     columns_js = options[:columns].collect do |col, opts|
       col_name = opts[:column_name] || col
       opts.reverse_merge!(column_defaults)
       { data: col, name: col_name, className: opts[:class_name],
-        orderable: opts[:orderable] }
+        orderable: opts[:orderable], link: opts[:link] }
     end
 
     res << javascript_tag(type: "text/javascript") do

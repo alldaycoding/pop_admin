@@ -18,6 +18,12 @@ table.dataTable thead th, table.dataTable thead td {
 
 table.dataTable tbody th, table.dataTable tbody td {
   cursor: pointer;
+  a {
+    color: #335d8d;
+    &:hover {
+      color: #303641;
+    }
+  }
 }
 
 .links-list {

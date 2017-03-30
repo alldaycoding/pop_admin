@@ -32,9 +32,26 @@ class Pop.Table
     head_foot_height = if $(window).width() > 768 then 100 else 120
     win_height - table_top - head_foot_height
 
+  tr_click: (url, remote) ->
+    if remote
+      $.ajax
+        url: url
+        dataType: 'script'
+    else
+      window.location.href = url
+
   render: (options = {}) ->
     @paging = options.paging || true
+    table_el = @el
     pop_table = this
+
+    for col in options.columns
+      if col.link?
+        col.render = (data, type, row, meta) ->
+          if type == 'display'
+            "<a href='#{row.url}' data-remote='#{table_el.data('remote')}'>#{data}</a>"
+          else
+            data
 
     table_opts =
       sDom: "tip"
@@ -55,12 +72,8 @@ class Pop.Table
         api = $table.api()
         api.$('tr').click () ->
           url = api.row(this).data().url
-          if $table.data("remote")?
-            $.ajax
-              url: url
-              dataType: 'script'
-          else
-            window.location.href = url
+          remote = $table.data("remote")?
+          pop_table.tr_click(url, remote)
 
     if @paging
       $.extend table_opts,
