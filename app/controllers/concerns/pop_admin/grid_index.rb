@@ -3,7 +3,8 @@ module PopAdmin
     extend ActiveSupport::Concern
 
     def prepare_grid_records(model, options = {})
-      @records_count = model.all.count
+      options.reverse_merge!(count_scope: model)
+      @records_count = options[:count_scope].count
       @records = model.all.offset(params[:start]).limit(params[:length])
       unless params[:order].blank?
         cols = params[:order].collect do |idx, ocol|
