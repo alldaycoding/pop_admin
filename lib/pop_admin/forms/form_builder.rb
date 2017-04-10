@@ -6,6 +6,7 @@ require 'pop_admin/forms/inputs/input_password'
 require 'pop_admin/forms/inputs/input_select'
 require 'pop_admin/forms/inputs/input_string'
 require 'pop_admin/forms/inputs/input_tag'
+require 'pop_admin/forms/inputs/input_time'
 
 module PopAdmin
   module Forms
