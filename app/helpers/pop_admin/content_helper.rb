@@ -80,5 +80,73 @@ module PopAdmin::ContentHelper
     info(ta(model, attribute), model.send(attribute), options)
   end
 
+  def action_button(label, url, icon = nil, options = {})
+    options.reverse_merge!(class: 'btn-default',
+      title: label, visible: true)
+
+    return unless options[:visible]
+
+    class_arr = options[:class].split(" ").push("btn")
+    if options[:type] == 'icon-left'
+      class_arr += ["btn-icon", "icon-left"]
+    elsif options[:type] == 'icon-right'
+      class_arr += ["btn-icon", "icon-left"]
+    elsif options[:type] == 'icon-only'
+      class_arr << "icon-only"
+    end
+
+    options[:class] = class_arr.uniq.join(" ")
+
+    link_to(url, options) do
+      concat(label.html_safe) unless options[:type] == 'icon-only'
+      concat(content_tag('i', '', class: icon)) unless icon.blank?
+    end
+  end
+
+  def dropdown_button(label, icon = nil, options = {})
+    options.reverse_merge!(class: "btn-default", visible: true,
+      dropdown_style: '', container_class: '')
+
+    return unless options[:visible]
+
+    class_arr = options[:class].split(" ").push("btn")
+    class_arr += ['btn', 'dropdown-toggle']
+    if options[:type] == 'icon-left'
+      class_arr += ["btn-icon", "icon-left"]
+    elsif options[:type] == 'icon-right'
+      class_arr += ["btn-icon", "icon-left"]
+    elsif options[:type] == 'icon-only'
+      class_arr << "icon-only"
+    end
+    options[:class] = class_arr.uniq.join(" ")
+
+    if options[:visible]
+      content_tag('div', class: "btn-group #{options[:container_class]}") do
+        button_tag(type: 'button', class: options[:class],
+          data: { toggle: 'dropdown' }) do
+          concat(label.html_safe) unless options[:type] == 'icon-only'
+          concat(content_tag('i', '', class: icon)) unless icon.blank?
+        end +
+        content_tag('ul', class: "dropdown-menu #{options[:dropdown_style]}") do
+          yield if block_given?
+        end
+      end
+    end
+  end
+
+  def dropdown_action(label, url, options = {})
+    options.reverse_merge!(visible: true)
+
+    if options[:visible]
+      content_tag('li') do
+        link_to(label, url, options)
+      end
+    end
+  end
+
+  def dropdown_action_sep
+    content_tag('li', '', class: 'divider')
+  end
+
 
 end

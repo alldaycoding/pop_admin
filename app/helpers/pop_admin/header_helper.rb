@@ -72,22 +72,8 @@ module PopAdmin::HeaderHelper
     end
   end
 
-  def dropdown_action(label, url, options = {})
-    options.reverse_merge!(visible: true)
-
-    if options[:visible]
-      content_tag('li') do
-        link_to(label, url, options)
-      end
-    end
-  end
-
   def page_action_sep
     content_tag('li', '', class: 'pop-page-action sep')
-  end
-
-  def dropdown_action_sep
-    content_tag('li', '', class: 'divider')
   end
 
   def page_search
