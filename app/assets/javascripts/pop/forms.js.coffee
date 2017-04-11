@@ -28,30 +28,36 @@ Pop.init_forms = (options = {}) ->
     $n = $this.next()
     $p = $this.prev()
     opts =
-      template: false
+      template: 'dropdown'
       showSeconds: false
-      defaultTime: 'current'
+      defaultTime: ''
       showMeridian: false
-      minuteStep: 15
-      secondStep: 15
+      minuteStep: 5
+      secondStep: 5
 
     $this.timepicker(opts)
 
     if $n.is('.input-group-addon') && $n.has('a')
       $n.on 'click', (ev) ->
+        ev.preventDefault()
         $this.timepicker('showWidget')
+        return false
 
     if $p.is('.input-group-addon') && $p.has('a')
       $n.on 'click', (ev) ->
+        ev.preventDefault()
         $this.timepicker('showWidget')
-        
+        return false
+
 
 
   $("select.pop-select2").each (i, el) ->
     $this = $(el)
     unless $this.data("pop-on")?
       $this.data("pop-on", true)
-      $this.select2($this.data())
+
+    opts = $this.data()
+    $this.select2(opts)
 
   $("input[type='checkbox']").each (i, el) ->
     sel = $(el).data("toggle")
