@@ -66,7 +66,7 @@
 
 }
 
-.ob-image-dropzone {
+.pop-image-dropzone {
   display: inline-block;
   margin: 15px;
   .pop-dropzone-body {
@@ -114,11 +114,11 @@
 }
 
 
-.ob-image-dropzone, .pop-dropzone * {
+.pop-image-dropzone, .pop-dropzone * {
   box-sizing: border-box;
 }
 
-.ob-image-dropzone, .pop-dropzone {
+.pop-image-dropzone, .pop-dropzone {
 
   $image-size: 120px;
 
