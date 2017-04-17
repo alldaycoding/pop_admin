@@ -30,3 +30,4 @@
 #=require ./pop/forms
 #=require ./pop/notify
 #=require ./pop/tables
+#=require ./pop/upload
