@@ -299,3 +299,19 @@ ul.pop-page-actions > li {
      }
    }
  }
+
+ .filter-dropdown-menu {
+   min-width: 250px;
+   .form-group label {
+     margin-bottom: 1px;
+   }
+
+   .pop-form-actions {
+     padding: 10px 0px 5px 0;
+   }
+
+   .container-fluid {
+     padding-top: 5px;
+     padding-bottom: 5px;
+   }
+ }

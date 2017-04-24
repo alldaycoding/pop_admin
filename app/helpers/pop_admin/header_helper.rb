@@ -91,4 +91,67 @@ module PopAdmin::HeaderHelper
     end
   end
 
+  def page_filters(options = {})
+    content_tag('li', class: "") do
+      content_tag('div', class: 'btn-group') do
+        button_tag(content_tag('i', '', class: 'fa fa-filter'),
+          class: 'btn btn-default icon-only dropdown-toggle',
+          data: { toggle: 'dropdown' }) +
+
+        content_tag('ul', class: 'dropdown-menu dropdown-menu-right filter-dropdown-menu') do
+          content_tag('li') do
+            content_tag('div', class: 'container-fluid') do
+              form_tag('#', data: { table: options[:table] }) do
+                filters_field = options[:filters].each do |f, options|
+                  concat page_filter_field(f, options)
+                end
+                concat(page_filter_btns)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def page_filter_field(field, options)
+    options.reverse_merge!(type: 'string')
+    content_tag('div', class: 'row') do
+      content_tag('div', class: 'col-md-12') do
+        send("page_filter_#{options[:type]}", field, options)
+      end
+    end
+  end
+
+  def page_filter_btns
+    content_tag('div', class: 'row') do
+      content_tag('div', class: 'col-md-12') do
+        content_tag('div', class: 'pop-form-actions') do
+          submit_tag(t('common.filter'), class: 'btn btn-primary')
+        end
+      end
+    end
+  end
+
+  def page_filter_string(field, options)
+    field_name = "filter_#{field}"
+    content_tag('div', class: 'form-group') do
+      label_tag(field_name, options[:label], class: 'control-label') +
+      content_tag('div', class: 'control-wrapper') do
+        text_field_tag(field_name, options[:value], class: 'form-control')
+      end
+    end
+  end
+
+  def page_filter_bool(field, options)
+    options.reverse_merge(checked: false)
+    field_name = "filter_#{field}"
+    content_tag('div', class: 'checkbox') do
+      label_tag(field_name) do
+        check_box_tag(field_name, '1', options[:checked], class: 'form-control') +
+        options[:label]
+      end
+    end
+  end
+
 end

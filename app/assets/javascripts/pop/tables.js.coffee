@@ -1,7 +1,11 @@
 class Pop.Table
 
   constructor: (elem_id) ->
+    $this = this
     @el = $(elem_id)
+    @el.data('pop_table', this)
+    @_filters = {}
+    @_ajax_data = {}
     Pop.tables ||= []
     Pop.tables.push(this)
 
@@ -13,6 +17,12 @@ class Pop.Table
     else
       @el.closest(".dataTables_scrollBody").css("height", "#{@scroll_length()}px")
 
+  set_filter: (filter, value) ->
+    @_ajax_data.filters ||= {}
+    @_ajax_data.filters[filter] = value
+
+  set_filters: (options) ->
+    @_ajax_data.filters = options
 
   page_length: ->
     table_top = @el.offset().top
@@ -40,7 +50,11 @@ class Pop.Table
     else
       window.location.href = url
 
+  ajax_data: (options = {}) ->
+    @_ajax_data
+
   render: (options = {}) ->
+    @_ajax_data.authenticity_token = options.authenticity_token
     @paging = options.paging || true
     table_el = @el
     pop_table = this
@@ -60,7 +74,8 @@ class Pop.Table
       ajax:
         url: options.url
         type: 'POST'
-        data: { authenticity_token: options.authenticity_token }
+        data: (d) ->
+          $.extend(d, pop_table.ajax_data())
       serverSide: true
       processing: true
       columns: options.columns

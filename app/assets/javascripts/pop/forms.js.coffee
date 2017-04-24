@@ -69,3 +69,21 @@ Pop.init_forms = (options = {}) ->
 
       $(el).click (ev) ->
         $(sel).toggle()
+
+  $(".filter-dropdown-menu form").click (ev) ->
+    ev.stopPropagation()
+
+  $(".filter-dropdown-menu form").submit (e) ->
+    e.preventDefault()
+    data = $(this).serializeArray()
+    filters = {}
+    for field in data
+      if field.name.match(/^filter_*/)
+        filter_name = field.name.replace(/^filter_/i, '')
+        filters[filter_name] = field.value
+
+    table_ref = $(this).data("table")
+    pop_table = if table_ref? then $(table_ref).data("pop_table") else Pop.tables[0]
+    pop_table.set_filters(filters)
+    pop_table.redraw()
+    return false
