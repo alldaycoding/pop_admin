@@ -2,21 +2,22 @@ module PopAdmin
   module GridIndex
     extend ActiveSupport::Concern
 
-    def prepare_grid_records(model, options = {})
-      options.reverse_merge!(count_scope: model)
+    def prepare_grid_records(model_scope, options = {})
+
+      if params[:filters]
+        model_scope = filtered_records_scope(model_scope)
+      elsif self.respond_to?(:default_filters, true)
+        model_scope = default_filters(model_scope)
+      end
+
+      options.reverse_merge!(count_scope: model_scope)
       @records_count = options[:count_scope].count
-      @records = model.all.offset(params[:start]).limit(params[:length])
+      @records = model_scope.all.offset(params[:start]).limit(params[:length])
       unless params[:order].blank?
         cols = params[:order].collect do |idx, ocol|
           "#{params['columns'][ocol[:column].to_s]['name']} #{ocol[:dir]}"
         end
         @records = @records.order(*cols) unless cols.blank?
-      end
-
-      if params[:filters]
-        @records = filtered_records_scope(@records)
-      elsif self.respond_to?(:default_filters, true)
-        @records = default_filters(@records)
       end
 
       @records = @records.decorate if options[:decorate]
