@@ -138,7 +138,34 @@ module PopAdmin::HeaderHelper
     content_tag('div', class: 'form-group') do
       label_tag(field_name, options[:label], class: 'control-label') +
       content_tag('div', class: 'control-wrapper') do
+        page_filter_type_field(field, :string, options) +
         text_field_tag(field_name, options[:value], class: 'form-control')
+      end
+    end
+  end
+
+  def page_filter_select(field, options)
+    options.reverse_merge!(value_method: 'id', text_method: 'name')
+    options[:data] ||= {}
+    options[:data].reverse_merge!(
+      allow_clear: true,
+      language: I18n.locale
+    )
+
+    field_name = "filter_#{field}"
+
+    if options[:collection].is_a?(ActiveRecord::Relation)
+      select_opts = options_from_collection_for_select(options[:collection],
+        options[:value_method], options[:text_method], options[:selected])
+    else
+      select_opts = options_for_select(options[:collection], options[:selected])
+    end
+    content_tag('div', class: 'form-group') do
+      label_tag(field_name, options[:label], class: 'control-label') +
+      content_tag('div', class: 'control-wrapper') do
+        page_filter_type_field(field, :select, options) +
+        select_tag(field_name, select_opts, class: 'form-control pop-select2',
+          data: options[:data], include_blank: true)
       end
     end
   end
@@ -146,12 +173,20 @@ module PopAdmin::HeaderHelper
   def page_filter_bool(field, options)
     options.reverse_merge(checked: false)
     field_name = "filter_#{field}"
-    content_tag('div', class: 'checkbox') do
-      label_tag(field_name) do
-        check_box_tag(field_name, '1', options[:checked], class: 'form-control') +
-        options[:label]
+    content_tag('div', class: 'checkbox-wrapper') do
+      content_tag('div', class: 'checkbox') do
+        label_tag(field_name) do
+          page_filter_type_field(field, :bool, options) +
+          check_box_tag(field_name, '1', options[:checked], class: 'form-control') +
+          options[:label]
+        end
       end
     end
+  end
+
+  def page_filter_type_field(field, type, options = {})
+    field_type = options[:custom] ? 'custom' : type
+    hidden_field_tag("filter_type_#{field}", field_type)
   end
 
 end

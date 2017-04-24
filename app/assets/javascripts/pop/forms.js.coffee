@@ -78,12 +78,18 @@ Pop.init_forms = (options = {}) ->
     data = $(this).serializeArray()
     filters = {}
     for field in data
-      if field.name.match(/^filter_*/)
+      if field.name.match(/^filter_type_*/)
+        filter_name = field.name.replace(/^filter_type_/i, '')
+        filters[filter_name] ||= {}
+        filters[filter_name]['type'] = field.value
+      else if field.name.match(/^filter_*/)
         filter_name = field.name.replace(/^filter_/i, '')
-        filters[filter_name] = field.value
+        filters[filter_name] ||= {}
+        filters[filter_name]['value'] = field.value
 
     table_ref = $(this).data("table")
     pop_table = if table_ref? then $(table_ref).data("pop_table") else Pop.tables[0]
     pop_table.set_filters(filters)
     pop_table.redraw()
+    $(this).closest(".dropdown-menu").siblings(".dropdown-toggle").dropdown("toggle")
     return false
