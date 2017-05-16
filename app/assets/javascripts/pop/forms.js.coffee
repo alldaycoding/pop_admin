@@ -93,3 +93,16 @@ Pop.init_forms = (options = {}) ->
     pop_table.redraw()
     $(this).closest(".dropdown-menu").siblings(".dropdown-toggle").dropdown("toggle")
     return false
+
+  $(".form-language-switch a").click (ev) ->
+    ev.preventDefault()
+    $(this).siblings("a").removeClass("btn-primary")
+    $(this).siblings("a").addClass("btn-default")
+    $(this).removeClass("btn-default")
+    $(this).addClass("btn-primary")
+
+    lang = $(this).attr("href")
+    form = $(this).closest("form")
+    form.find(".localized-field").hide()
+    form.find(".localized-field.#{lang}").show()
+    return false

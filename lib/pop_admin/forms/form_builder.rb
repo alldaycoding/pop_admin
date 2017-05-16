@@ -31,6 +31,13 @@ module PopAdmin
         res.to_html
       end
 
+      def localized_input(method, options = {})
+        options[:label] ||= I18n.ta(@object, method)
+        @template.localized_field do |locale|
+          input("#{method}_#{locale}", options.dup)
+        end
+      end
+
       [:horizontal, :vertical].each do |ftype|
         define_method("#{ftype}?") do
           @form_type.to_sym == ftype
@@ -42,6 +49,10 @@ module PopAdmin
           options = args[1] || {}
           options[:as] = $1
           input(args[0], options)
+        elsif method =~ /^localized_input_(.+)$/
+          options = args[1] || {}
+          options[:as] = $1
+          localized_input(args[0], options)
         else
           super
         end

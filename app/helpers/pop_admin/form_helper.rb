@@ -40,4 +40,24 @@ module PopAdmin::FormHelper
     end
   end
 
+  def form_language_switch
+    content_tag 'div', class: 'form-language-wrapper' do
+      content_tag 'div', class: 'form-language-switch' do
+        I18n.available_locales.map do |lang|
+          style = (lang == I18n.locale) ? 'btn btn-primary btn-sm' : 'btn btn-default btn-sm'
+          link_to(lang.to_s.upcase, lang.to_s, class: style)
+        end.join.html_safe
+      end
+    end
+  end
+
+  def localized_field
+    I18n.available_locales.map do |locale|
+      display = (locale == I18n.locale) ? "block" : "none"
+      content_tag('div', class: "localized-field #{locale}", style: "display: #{display}") do
+        yield(locale)
+      end
+    end.join.html_safe
+  end
+
 end
