@@ -32,9 +32,16 @@ module PopAdmin
       end
 
       def localized_input(method, options = {})
+        options.reverse_merge!(label_with_locale: true)
         options[:label] ||= I18n.ta(@object, method)
         @template.localized_field do |locale|
-          input("#{method}_#{locale}", options.dup)
+          opt = options.dup
+
+          if options[:label_with_locale]
+            opt[:label] = "#{options[:label]} (#{locale})"
+          end
+
+          input("#{method}_#{locale}", opt)
         end
       end
 
