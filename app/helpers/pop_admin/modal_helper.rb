@@ -3,7 +3,8 @@ module PopAdmin::ModalHelper
   def modal(object, options = {})
     options.reverse_merge!(
       title: "",
-      class: ""
+      class: "",
+      size: 'md'
     )
 
     modal_style = options[:class].strip.split(" ")
@@ -11,7 +12,7 @@ module PopAdmin::ModalHelper
     modal_style << "tabs" if options[:tabs]
 
     content = content_tag('div', class: modal_style.join(" ")) do
-      content_tag("div", class: "modal-dialog") do
+      content_tag("div", class: "modal-dialog modal-#{options[:size]}") do
         content_tag("div", class: "modal-content") do
           content_tag("div", class: "modal-header") do
             button_tag("&times".html_safe, type: "button",
