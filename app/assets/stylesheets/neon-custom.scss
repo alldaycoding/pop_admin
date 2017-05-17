@@ -111,15 +111,15 @@ label.control-label {
   padding: 7px 12px;
 }
 
-.page-body table td.center {
+.page-body table td.center, .page-body table th.center {
   text-align: center;
 }
 
-.page-body table td.right {
+.page-body table td.right, .page-body table th.right {
   text-align: right;
 }
 
-.page-body table td.left {
+.page-body table td.left, .page-body table th.left {
   text-align: left;
 }
 
