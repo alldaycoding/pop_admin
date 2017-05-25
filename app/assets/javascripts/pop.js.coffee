@@ -31,3 +31,4 @@
 #=require ./pop/notify
 #=require ./pop/tables
 #=require ./pop/upload
+#=require ./pop/refresh

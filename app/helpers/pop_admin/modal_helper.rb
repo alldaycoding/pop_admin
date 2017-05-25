@@ -4,39 +4,15 @@ module PopAdmin::ModalHelper
     options.reverse_merge!(
       title: "",
       class: "",
-      size: 'md'
+      size: 'md',
+      refresh: request.path
     )
 
-    modal_style = options[:class].strip.split(" ")
-    modal_style += ["modal", "fade", controller_name, action_name]
-    modal_style << "tabs" if options[:tabs]
-
-    content = content_tag('div', class: modal_style.join(" ")) do
-      content_tag("div", class: "modal-dialog modal-#{options[:size]}") do
-        content_tag("div", class: "modal-content") do
-          content_tag("div", class: "modal-header") do
-            button_tag("&times".html_safe, type: "button",
-             class: "close", data: { dismiss: "modal" }, aria_hidden: "true") +
-            content_tag("h4", options[:title], class: "modal-title")
-          end +
-          content_tag("div", class: "modal-body") do
-            yield
-          end +
-          if options[:buttons]
-            content_tag("div", class: "modal-footer") do
-                options[:buttons].call()
-            end
-          else
-            "".html_safe
-          end
-        end
-      end
+    if params[:refresh]
+      refresh_modal(object, options) { yield }
+    else
+      show_modal(object, options) { yield }
     end
-
-    raw %Q{
-      $("#{j content}").modal();
-      #{trigger_ujs_event(object)}
-    }
   end
 
   def modal_buttons(&block)
@@ -78,6 +54,67 @@ module PopAdmin::ModalHelper
     end
 
     raw res
+  end
+
+  private
+
+  def show_modal(object, options = {})
+    modal_data = {}
+    if options[:refresh]
+      path = Rails.application.routes.recognize_path(options[:refresh])
+      url = Rails.application.routes.url_for(path.merge(refresh: 1,
+        only_path: true))
+      modal_data[:refresh] = url
+    end
+
+    modal_style = options[:class].strip.split(" ")
+    modal_style += ["modal", "fade", controller_name, action_name]
+    modal_style << "tabs" if options[:tabs]
+
+    content = content_tag('div', id: options[:id],
+      class: modal_style.join(" "), data: modal_data) do
+      content_tag("div", class: "modal-dialog modal-#{options[:size]}") do
+        content_tag("div", class: "modal-content") do
+          content_tag("div", class: "modal-header") do
+            button_tag("&times".html_safe, type: "button",
+             class: "close", data: { dismiss: "modal" }, aria_hidden: "true") +
+            content_tag("h4", options[:title], class: "modal-title")
+          end +
+          content_tag("div", class: "modal-body") do
+            yield
+          end +
+          if options[:buttons]
+            content_tag("div", class: "modal-footer") do
+                options[:buttons].call()
+            end
+          else
+            "".html_safe
+          end
+        end
+      end
+    end
+
+    raw %Q{
+      $("#{j content}").modal();
+      #{trigger_ujs_event(object)}
+    }
+  end
+
+  def refresh_modal(object, options = {})
+    ref = if options[:id]
+      "##{options[:id]}"
+    else
+      ".modal.#{controller_name}.#{action_name}"
+    end
+
+    content = capture { yield }
+
+    raw %Q{
+      li = $("#{ref} .modal-body").find('li.active');
+      pos = $("#{ref} .modal-body li").index(li);
+      $("#{ref} .modal-body").html("#{j content }");
+      $("#{ref} .modal-body li:eq("+pos+") a").tab("show");
+    }
   end
 
 end
