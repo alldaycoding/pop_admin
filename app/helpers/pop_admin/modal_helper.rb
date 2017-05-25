@@ -114,6 +114,7 @@ module PopAdmin::ModalHelper
       pos = $("#{ref} .modal-body li").index(li);
       $("#{ref} .modal-body").html("#{j content }");
       $("#{ref} .modal-body li:eq("+pos+") a").tab("show");
+      #{trigger_ujs_event(object)}
     }
   end
 
