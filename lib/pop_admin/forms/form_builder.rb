@@ -45,7 +45,7 @@ module PopAdmin
         end
       end
 
-      [:horizontal, :vertical].each do |ftype|
+      [:horizontal, :vertical, :clean].each do |ftype|
         define_method("#{ftype}?") do
           @form_type.to_sym == ftype
         end

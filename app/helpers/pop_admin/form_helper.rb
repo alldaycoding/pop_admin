@@ -18,6 +18,15 @@ module PopAdmin::FormHelper
     form_for(name, *(args << options.merge(def_options)), &block)
   end
 
+  def clean_form_for(name, *args, &block)
+    def_options = {
+      builder: PopAdmin::Forms::FormBuilder,
+      type: :clean
+    }
+    options = args.extract_options!
+    form_for(name, *(args << options.merge(def_options)), &block)
+  end
+
   def form_buttons(model, options = {})
     options.reverse_merge!(icons: false, save_label: t('action.save'),
       cancel_label: t('action.cancel'))

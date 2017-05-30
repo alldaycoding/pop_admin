@@ -39,14 +39,14 @@ module PopAdmin
 
         def label
           label = @options.delete(:label)
-          if label || label.nil?
+          if (label || label.nil?) && (!clean?)
             @builder.label(@method, label, class: label_style)
           else
             "".html_safe
           end
         end
 
-        [:horizontal, :vertical].each do |ftype|
+        [:horizontal, :vertical, :clean].each do |ftype|
           define_method("#{ftype}?") do
             @options[:form_type].to_sym == ftype
           end
