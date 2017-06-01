@@ -20,6 +20,7 @@
 #= require handlebars.js
 #= require jquery.populate.js
 
+#= require neon/moment.min.js
 #= require neon/daterangepicker/daterangepicker.js
 
 #= require neon/moment.min.js
