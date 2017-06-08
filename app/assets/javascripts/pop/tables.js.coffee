@@ -22,7 +22,8 @@ class Pop.Table
     @_ajax_data.filters[filter] = value
 
   set_filters: (options) ->
-    @_ajax_data.filters = options
+    @_ajax_data.filters ||= {}
+    @_ajax_data.filters = $.extend(@_ajax_data.filters, options)
 
   page_length: ->
     table_top = @el.offset().top

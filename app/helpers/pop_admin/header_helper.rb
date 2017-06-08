@@ -91,6 +91,32 @@ module PopAdmin::HeaderHelper
     end
   end
 
+  def page_daterange(options = {})
+    options.reverse_merge!(js_format: 'DD MMM YYYY', rb_format: '%d %b. %Y',
+      start_date: Time.current, end_date: Time.current,
+      locale: I18n.t("components.daterange"), ranges: true, opens: 'left')
+
+    style = ["daterange", "daterange-inline"]
+    style << "add-ranges" if options[:ranges]
+    style << "pull-right" if options[:opens].to_s === 'left'
+
+    data = options.slice(:locale, :table, :column)
+    data.merge!(
+      format: options[:js_format],
+      start_date: options[:start_date].strftime(options[:rb_format]),
+      end_date: options[:end_date].strftime(options[:rb_format])
+    )
+
+    init_value = "#{data[:start_date]} - #{data[:end_date]}"
+
+    content_tag('li', class: "pop-page-action hidden-xs") do
+      content_tag 'div', class: style.join(" "), data: data do
+        content_tag('i', '', class: 'entypo-calendar') +
+        content_tag('span', init_value)
+      end
+    end
+  end
+
   def page_filters(options = {})
     content_tag('li', class: "") do
       content_tag('div', class: 'btn-group') do

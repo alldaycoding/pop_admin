@@ -844,18 +844,9 @@ var public_vars = public_vars || {};
 		{
 			$(".daterange").each(function(i, el)
 			{
-				// Change the range as you desire
-				var ranges = {
-					'Today': [moment(), moment()],
-					'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
-					'Last 7 Days': [moment().subtract('days', 6), moment()],
-					'Last 30 Days': [moment().subtract('days', 29), moment()],
-					'This Month': [moment().startOf('month'), moment().endOf('month')],
-					'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-				};
+				var $this = $(el)
 
-				var $this = $(el),
-					opts = {
+				var	opts = {
 						format: attrDefault($this, 'format', 'MM/DD/YYYY'),
 						timePicker: attrDefault($this, 'timePicker', false),
 						timePickerIncrement: attrDefault($this, 'timePickerIncrement', false),
@@ -864,7 +855,15 @@ var public_vars = public_vars || {};
 					min_date = attrDefault($this, 'minDate', ''),
 					max_date = attrDefault($this, 'maxDate', ''),
 					start_date = attrDefault($this, 'startDate', ''),
-					end_date = attrDefault($this, 'endDate', '');
+					end_date = attrDefault($this, 'endDate', ''),
+					locale = attrDefault($this, 'locale', {});
+
+				var ranges = {};
+				ranges[attrDefault(locale, 'todayLabel', 'Today')] = [moment(), moment()];
+				ranges[attrDefault(locale, 'yesterdayLabel', 'Yesterday')] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
+				ranges[attrDefault(locale, 'currentWeekLabel', 'Current Week')] = [moment().startOf('week'), moment().endOf('week')];
+				ranges[attrDefault(locale, 'currentMonthLabel', 'Current Month')] = [moment().startOf('month'), moment().endOf('month')];
+				ranges[attrDefault(locale, 'lastMonthLabel', 'Last Month')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
 
 				if($this.hasClass('add-ranges'))
 				{
@@ -891,6 +890,7 @@ var public_vars = public_vars || {};
 					opts['endDate'] = end_date;
 				}
 
+				opts['locale'] = locale;
 
 				$this.daterangepicker(opts, function(start, end)
 				{
@@ -898,7 +898,6 @@ var public_vars = public_vars || {};
 
 					if($this.is('[data-callback]'))
 					{
-						//daterange_callback(start, end);
 						callback_test(start, end);
 					}
 
@@ -1776,9 +1775,11 @@ function unblockUI($el)
 // Element Attribute Helper
 function attrDefault($el, data_var, default_val)
 {
-	if(typeof $el.data(data_var) != 'undefined')
-	{
+	if ($el.data && (typeof $el.data(data_var) != 'undefined')) {
 		return $el.data(data_var);
+	}
+	else if (typeof $el[data_var] != 'undefined') {
+		return $el[data_var];
 	}
 
 	return default_val;

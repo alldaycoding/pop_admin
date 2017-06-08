@@ -94,6 +94,17 @@ Pop.init_forms = (options = {}) ->
     $(this).closest(".dropdown-menu").siblings(".dropdown-toggle").dropdown("toggle")
     return false
 
+  $('.pop-page-action .daterange').on 'apply.daterangepicker', (ev, picker) ->
+    table_ref = $(this).data("table")
+    pop_table = if table_ref? then $(table_ref).data("pop_table") else Pop.tables[0]
+    column = $(this).data("column")
+    if column?
+      pop_table.set_filters
+        "#{column}":
+          type: 'daterange',
+          value: "#{picker.startDate.format()}..#{picker.endDate.format()}"
+      pop_table.redraw()
+
   $(".form-language-switch a").click (ev) ->
     ev.preventDefault()
     $(this).siblings("a").removeClass("btn-primary")

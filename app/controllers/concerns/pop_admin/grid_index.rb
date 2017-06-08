@@ -33,6 +33,9 @@ module PopAdmin
             res = res.where(filter => val)
           when 'contain'
             res = res.where("#{filter} LIKE ?", "%#{options[:value]}%")
+          when 'daterange'
+            range = options[:value].split("..").map { |d| Time.parse(d) }
+            res = res.where("#{filter}" => range[0]..range[1])
           when 'custom'
             res = self.custom_filter(res, field, options[:value])
           else
