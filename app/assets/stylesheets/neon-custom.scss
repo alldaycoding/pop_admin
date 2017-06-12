@@ -26,6 +26,46 @@ table.dataTable tbody th, table.dataTable tbody td {
   }
 }
 
+.dataTable-summary {
+  padding: 0;
+  list-style: none;
+  float: right;
+  border-radius: 5px;
+  display: block;
+  margin: 6px 10px;
+  background-color: #335d8d;
+
+  > li {
+    margin: 0;
+    float: left;
+    display: block;
+    min-width: 120px;
+    padding: 6px 25px;
+    border-left: 1px solid mix(#335d8d, #ffffff, 90%);
+    color: #ffffff;
+
+    &.first {
+      border-left: 0px;
+    }
+
+    label {
+      margin: 0;
+      display: block;
+      font-weight: normal;
+      color: mix(#335d8d, #ffffff, 50%);
+      text-align: right;
+    }
+
+    span {
+      display: block;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+    }
+  }
+}
+
+
 .links-list {
   padding: 0;
 }

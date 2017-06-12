@@ -17,6 +17,13 @@ class Pop.Table
     else
       @el.closest(".dataTables_scrollBody").css("height", "#{@scroll_length()}px")
 
+  params: () ->
+    p = @el.dataTable().api().ajax.params()
+    $.extend(p, @_ajax_data)
+
+  filters_and_search: () ->
+    { filters: @params().filters, search: @params().search }
+
   set_filter: (filter, value) ->
     @_ajax_data.filters ||= {}
     @_ajax_data.filters[filter] = value
@@ -107,6 +114,21 @@ class Pop.Table
     $(".pop-page-search").submit (e) ->
       e.preventDefault()
       table.search($(this).find("input.form-control").val()).draw()
+      return false
+
+    $("a[data-source=pop_table]").on 'click', (ev) ->
+      ev.preventDefault()
+      table_el = $($(this).data("table"))
+      data = table_el.data("pop_table").filters_and_search()
+      base_url = $(this).attr('href')
+      div = if base_url.indexOf('?') > 0 then "&" else "?"
+      url = "#{base_url}#{div}#{$.param(data)}"
+
+      if $(this).attr('target') == '_blank'
+        window.open(url)
+      else
+        window.location.href = url
+
       return false
 
     $(window).on 'resize', () ->
