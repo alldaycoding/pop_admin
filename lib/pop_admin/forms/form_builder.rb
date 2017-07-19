@@ -37,7 +37,7 @@ module PopAdmin
         @template.localized_field do |locale|
           opt = options.dup
 
-          if options[:label_with_locale]
+          if options[:label_with_locale] && (options[:label] || options[:label].nil?)
             opt[:label] = "#{options[:label]} (#{locale})"
           end
 
