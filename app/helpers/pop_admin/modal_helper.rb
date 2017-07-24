@@ -5,7 +5,9 @@ module PopAdmin::ModalHelper
       title: "",
       class: "",
       size: 'md',
-      refresh: request.path
+      refresh: request.path,
+      auto_remove: true, # Elimina elemento DOM cuando se cierra la ventana
+      js: true # Retorna modal dentro de un comando js para mostrar
     )
 
     if params[:refresh]
@@ -70,6 +72,7 @@ module PopAdmin::ModalHelper
     modal_style = options[:class].strip.split(" ")
     modal_style += ["modal", "fade", controller_name, action_name]
     modal_style << "tabs" if options[:tabs]
+    modal_style << "autoremove" if options[:auto_remove]
 
     content = content_tag('div', id: options[:id],
       class: modal_style.join(" "), data: modal_data) do
@@ -94,10 +97,14 @@ module PopAdmin::ModalHelper
       end
     end
 
-    raw %Q{
-      $("#{j content}").modal();
-      #{trigger_ujs_event(object)}
-    }
+    if options[:js]
+      raw %Q{
+        $("#{j content}").modal();
+        #{trigger_ujs_event(object)}
+      }
+    else
+      content
+    end
   end
 
   def refresh_modal(object, options = {})

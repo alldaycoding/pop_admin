@@ -9,7 +9,7 @@ Pop.init = ->
     Pop.init_forms()
     Pop.init_modal($(this))
 
-  $("body").delegate ".modal", "hidden.bs.modal", () ->
+  $("body").delegate ".modal.autoremove", "hidden.bs.modal", () ->
     $(this).remove()
 
 Pop.init_show_flash = () ->
