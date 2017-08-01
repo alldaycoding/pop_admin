@@ -103,8 +103,8 @@ module PopAdmin::HeaderHelper
     data = options.slice(:locale, :table, :column)
     data.merge!(
       format: options[:js_format],
-      start_date: options[:start_date].strftime(options[:rb_format]),
-      end_date: options[:end_date].strftime(options[:rb_format])
+      start_date: I18n.l(options[:start_date], format: options[:rb_format]),
+      end_date: I18n.l(options[:end_date], format: options[:rb_format])
     )
 
     init_value = "#{data[:start_date]} - #{data[:end_date]}"
