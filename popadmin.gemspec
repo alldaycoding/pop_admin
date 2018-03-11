@@ -7,7 +7,7 @@ require "pop_admin/version"
 Gem::Specification.new do |s|
   s.name        = "pop_admin"
   s.version     = PopAdmin::VERSION
-  s.authors     = ["bacchi.rafael"]
+  s.authors     = ["bacchir"]
   s.email       = ["bacchi.rafael@gmail.com"]
   s.homepage    = ""
   s.summary     = "Beautiful and flexible administration engine"
